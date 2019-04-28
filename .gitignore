@@ -1,0 +1,9 @@
+git.txt
+/Release
+Release.7z
+/build
+*.elf
+*.nso
+*.pfs0
+*.nacp
+*.nro
