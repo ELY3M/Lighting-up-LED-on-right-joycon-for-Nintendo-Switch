@@ -5,18 +5,11 @@
 // Include the main libnx system header, for Switch development
 #include <switch.h>
 
-// This example shows how to use the HOME-button notification-LED, see also libnx hidsys.h.
 
-// Main program entrypoint
 int main(int argc, char* argv[])
 {
-    // This example uses a text console, as a simple way to output text to the screen.
-    // If you want to write a software-rendered graphics application,
-    //   take a look at the graphics/simplegfx example, which uses the libnx Framebuffer API instead.
-    // If on the other hand you want to write an OpenGL based application,
-    //   take a look at the graphics/opengl set of examples, which uses EGL instead.
-    consoleInit(NULL);
 
+    consoleInit(NULL);
     Result rc=0;
     bool initflag=0;
     size_t i;
@@ -37,6 +30,7 @@ int main(int argc, char* argv[])
 		printf("Press Y for Ely's faster flashing notification-LED pattern.\n");
         printf("Press A to set a Breathing effect notification-LED pattern.\n");
         printf("Press B to set a Heartbeat effect notification-LED pattern.\n");
+		printf("Press - to disable notification-LED only\n");
         printf("Press + to disable notification-LED and exit.\n");
     }
 
@@ -55,6 +49,11 @@ int main(int argc, char* argv[])
             memset(&pattern, 0, sizeof(pattern));
         }
 		
+		//only turn off all leds! 
+		else if (kDown & KEY_MINUS) {
+            // Disable notification led.
+            memset(&pattern, 0, sizeof(pattern));
+        }
 		
 		//my testing code 
 		else if (kDown & KEY_X) {
@@ -89,25 +88,26 @@ int main(int argc, char* argv[])
 		else if (kDown & KEY_Y) {
             memset(&pattern, 0, sizeof(pattern));
 
-            //Ely's test code for faster flashing led on the home button on the joycons//    
-            pattern.baseMiniCycleDuration = 0x1;             // 12.5 ms
+            //Ely's test code for very fast strobe-like flashing led on the home button on the joycons//    
+			//it is strobe-like!!!  :) - very sweet, I love this pattern!  :)  ELY M.   
+            
+			pattern.baseMiniCycleDuration = 0x1;             // 12.5 ms
             pattern.totalMiniCycles = 0x2;                   // 3 mini cycles. Last one 12.5ms.
             pattern.totalFullCycles = 0x0;                   // Repeat forever.
             pattern.startIntensity = 0xF;                    // 100%.
-
-
+			
             pattern.miniCycles[0].ledIntensity = 0xF;        // 100%.
-            pattern.miniCycles[0].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[0].transitionSteps = 0x0;     // Forced 12.5ms.
             pattern.miniCycles[0].finalStepDuration = 0x0;   // Forced 12.5ms.
             pattern.miniCycles[1].ledIntensity = 0x0;        // 0%.
-            pattern.miniCycles[1].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[1].transitionSteps = 0x0;     // Forced 12.5ms.
             pattern.miniCycles[1].finalStepDuration = 0x0;   // Forced 12.5ms.
 
             pattern.miniCycles[2].ledIntensity = 0xF; 		  // 100%
-            pattern.miniCycles[2].transitionSteps = 0xF;	  // 15 steps. Total 187.5ms.
+            pattern.miniCycles[2].transitionSteps = 0x0;	  // Forced 12.5ms.
             pattern.miniCycles[2].finalStepDuration = 0x0;	  // Forced 12.5ms.
             pattern.miniCycles[3].ledIntensity = 0x0; 		  // 0%
-            pattern.miniCycles[3].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[3].transitionSteps = 0x0;     // Forced 12.5ms.
             pattern.miniCycles[3].finalStepDuration = 0x0;   // Forced 12.5ms.
 
 			
@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
             }
         }
 
-        if (kDown & (KEY_X | KEY_Y | KEY_A | KEY_B | KEY_PLUS)) {
+        if (kDown & (KEY_X | KEY_Y | KEY_A | KEY_B | KEY_MINUS | KEY_PLUS)) {
             total_entries = 0;
             memset(UniquePadIds, 0, sizeof(UniquePadIds));
 
