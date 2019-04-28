@@ -43,6 +43,11 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 #ROMFS	:=	romfs
+APP_VERSION   := 1.0
+ICON          := icon.jpg
+
+APP_TITLE     := LED on the joycon
+APP_AUTHOR    := ELY M. / CTCaer for the original code
 
 #---------------------------------------------------------------------------------
 # options for code generation
