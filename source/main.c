@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     u64 UniquePadIds[2];
     HidsysNotificationLedPattern pattern;
 
-    printf("notification-led example - Ely's test code - press X\n");
+    printf("notification-led example - Ely's test codes\n");
 
     rc = hidsysInitialize();
     if (R_FAILED(rc)) {
@@ -33,7 +33,8 @@ int main(int argc, char* argv[])
     }
     else {
         initflag = 1;
-		printf("Press X for Ely's notification-LED pattern.\n");
+		printf("Press X for Ely's flashing notification-LED pattern.\n");
+		printf("Press Y for Ely's faster flashing notification-LED pattern.\n");
         printf("Press A to set a Breathing effect notification-LED pattern.\n");
         printf("Press B to set a Heartbeat effect notification-LED pattern.\n");
         printf("Press + to disable notification-LED and exit.\n");
@@ -60,22 +61,58 @@ int main(int argc, char* argv[])
             memset(&pattern, 0, sizeof(pattern));
 
             //Ely's test code for flashing led on the home button on the joycons//    
-            pattern.baseMiniCycleDuration = 0x0;             // 12.5 ms
+            pattern.baseMiniCycleDuration = 0x1;             // 12.5 ms
             pattern.totalMiniCycles = 0x2;                   // 3 mini cycles. Last one 12.5ms.
             pattern.totalFullCycles = 0x0;                   // Repeat forever.
-            pattern.startIntensity = 0x2;                    // 13%.
+            pattern.startIntensity = 0xF;                    // 100%.
+
 
             pattern.miniCycles[0].ledIntensity = 0xF;        // 100%.
-            pattern.miniCycles[0].transitionSteps = 0xF;     // 15 steps. Transition time 1.5s.
+            pattern.miniCycles[0].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
             pattern.miniCycles[0].finalStepDuration = 0x0;   // Forced 12.5ms.
-			
             pattern.miniCycles[1].ledIntensity = 0x0;        // 0%.
-            pattern.miniCycles[1].transitionSteps = 0xF;     // 15 steps. Transition time 1.5s.
-            pattern.miniCycles[1].finalStepDuration = 0x0;   // Forced 12.5ms. 	
+            pattern.miniCycles[1].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[1].finalStepDuration = 0x0;   // Forced 12.5ms.
+
+            pattern.miniCycles[2].ledIntensity = 0xF; 		  // 100%
+            pattern.miniCycles[2].transitionSteps = 0xF;	  // 15 steps. Total 187.5ms.
+            pattern.miniCycles[2].finalStepDuration = 0x0;	  // Forced 12.5ms.
+            pattern.miniCycles[3].ledIntensity = 0x0; 		  // 0%
+            pattern.miniCycles[3].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[3].finalStepDuration = 0x0;   // Forced 12.5ms.
+
 			
 			
         }
 		
+		
+		else if (kDown & KEY_Y) {
+            memset(&pattern, 0, sizeof(pattern));
+
+            //Ely's test code for faster flashing led on the home button on the joycons//    
+            pattern.baseMiniCycleDuration = 0x1;             // 12.5 ms
+            pattern.totalMiniCycles = 0x2;                   // 3 mini cycles. Last one 12.5ms.
+            pattern.totalFullCycles = 0x0;                   // Repeat forever.
+            pattern.startIntensity = 0xF;                    // 100%.
+
+
+            pattern.miniCycles[0].ledIntensity = 0xF;        // 100%.
+            pattern.miniCycles[0].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[0].finalStepDuration = 0x0;   // Forced 12.5ms.
+            pattern.miniCycles[1].ledIntensity = 0x0;        // 0%.
+            pattern.miniCycles[1].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[1].finalStepDuration = 0x0;   // Forced 12.5ms.
+
+            pattern.miniCycles[2].ledIntensity = 0xF; 		  // 100%
+            pattern.miniCycles[2].transitionSteps = 0xF;	  // 15 steps. Total 187.5ms.
+            pattern.miniCycles[2].finalStepDuration = 0x0;	  // Forced 12.5ms.
+            pattern.miniCycles[3].ledIntensity = 0x0; 		  // 0%
+            pattern.miniCycles[3].transitionSteps = 0xF;     // 15 steps. Total 187.5ms.
+            pattern.miniCycles[3].finalStepDuration = 0x0;   // Forced 12.5ms.
+
+			
+			
+        }
 		
         else if (kDown & KEY_A) {
             memset(&pattern, 0, sizeof(pattern));
@@ -126,7 +163,7 @@ int main(int argc, char* argv[])
             }
         }
 
-        if (kDown & (KEY_A | KEY_B | KEY_PLUS)) {
+        if (kDown & (KEY_X | KEY_Y | KEY_A | KEY_B | KEY_PLUS)) {
             total_entries = 0;
             memset(UniquePadIds, 0, sizeof(UniquePadIds));
 
