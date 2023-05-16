@@ -43,6 +43,7 @@ int main(int argc, char* argv[])
 		printf("Press Y for Ely's faster flashing notification-LED pattern.\n");
         printf("Press A to set a Breathing effect notification-LED pattern.\n");
         printf("Press B to set a Heartbeat effect notification-LED pattern.\n");
+		printf("Press R for Ely's Solid On.\n");		
 		printf("Press - to disable notification-LED only\n");
         printf("Press + to disable notification-LED and exit.\n");
     }
@@ -164,7 +165,22 @@ int main(int argc, char* argv[])
             }
         }
 
-        if (kDown & (HidNpadButton_A | HidNpadButton_B | HidNpadButton_X | HidNpadButton_Y | HidNpadButton_Plus)) {
+
+        else if (kDown & HidNpadButton_R) {
+            memset(&pattern, 0, sizeof(pattern));
+
+            //Ely's test code for solid on led on the home button on the joycons//    
+			pattern.baseMiniCycleDuration = 0x0F;
+			pattern.startIntensity = 0x0F;
+			pattern.miniCycles[0].ledIntensity = 0x0F;
+			pattern.miniCycles[0].transitionSteps = 0x0F;
+			pattern.miniCycles[0].finalStepDuration = 0x0F;
+
+
+        }
+
+
+        if (kDown & (HidNpadButton_A | HidNpadButton_B | HidNpadButton_X | HidNpadButton_Y | HidNpadButton_R | HidNpadButton_Plus)) {
             total_entries = 0;
             memset(unique_pad_ids, 0, sizeof(unique_pad_ids));
 
