@@ -63,6 +63,11 @@ int main(int argc, char* argv[])
             memset(&pattern, 0, sizeof(pattern));
         }
 		
+        if (kDown & HidNpadButton_Minus) {
+            // Disable notification led. Only needed with hidsysSetNotificationLedPattern, with hidsysSetNotificationLedPatternWithTimeout the LED will be automatically disabled via the timeout.
+            memset(&pattern, 0, sizeof(pattern));
+        }		
+		
 
         else if (kDown & HidNpadButton_X) {
             memset(&pattern, 0, sizeof(pattern));
@@ -180,7 +185,7 @@ int main(int argc, char* argv[])
         }
 
 
-        if (kDown & (HidNpadButton_A | HidNpadButton_B | HidNpadButton_X | HidNpadButton_Y | HidNpadButton_R | HidNpadButton_Plus)) {
+        if (kDown & (HidNpadButton_A | HidNpadButton_B | HidNpadButton_X | HidNpadButton_Y | HidNpadButton_R | HidNpadButton_Minus | HidNpadButton_Plus)) {
             total_entries = 0;
             memset(unique_pad_ids, 0, sizeof(unique_pad_ids));
 
