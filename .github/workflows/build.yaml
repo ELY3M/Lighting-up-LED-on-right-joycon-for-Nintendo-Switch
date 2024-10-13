@@ -31,5 +31,5 @@ jobs:
           prerelease: false
           draft: false
           body: ${{ github.event.head_commit.message }}
-          files: fuck-u.nro
+          files: led-on-joycon.nro
           name: "Switch Release #${{ github.run_number }}"
