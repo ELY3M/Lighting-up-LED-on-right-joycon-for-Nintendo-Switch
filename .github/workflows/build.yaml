@@ -21,7 +21,7 @@ jobs:
       - name: build
         run: make -j2
 
-      - name: test
+      - name: checking
         run: ls -la
         
       - name: Publish GitHub release
