@@ -9,8 +9,8 @@ jobs:
     name: Test build
     runs-on: ubuntu-latest
     container:
-      ##image: 'devkitpro/devkita64'
-      image: 'ghcr.io/irneracoonovich/devkita64'
+      image: 'devkitpro/devkita64'
+      ##image: 'ghcr.io/irneracoonovich/devkita64'
 
     steps:
       - uses: actions/checkout@v4
