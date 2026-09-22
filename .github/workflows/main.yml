@@ -28,13 +28,19 @@ jobs:
 
       - name: test
         run: ls -la
+       
+      - name: get date/date 
+        env:
+          TZ: "America/Chicago"
+        run: | 
+          echo "NOW=$(date +'%m-%d-%Y-%I.%M.%S.%p')" >> $GITHUB_ENV
         
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.run_number }}
+          tag_name: ${{ env.NOW }}
           prerelease: false
           draft: false
           body: ${{ github.event.head_commit.message }}
           files: ${{ github.event.repository.name }}.nro
-          name: "Switch Release #${{ github.run_number }}"
+          name: "Switch Release ${{ env.NOW }}"
